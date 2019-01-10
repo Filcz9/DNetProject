@@ -7,25 +7,23 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DNetProject
+namespace DNetProject.Models
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Comment
+    public partial class Album
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Comment()
+        public Album()
         {
             this.Pictures = new HashSet<Picture>();
         }
     
         public int id { get; set; }
-        public System.DateTime upload_date { get; set; }
-        public string text { get; set; }
-        public Nullable<int> id_user { get; set; }
+        public string album_name { get; set; }
+        public string album_number { get; set; }
     
-        public virtual User User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Picture> Pictures { get; set; }
     }

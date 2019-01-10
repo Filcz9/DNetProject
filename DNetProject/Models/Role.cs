@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DNetProject
+namespace DNetProject.Models
 {
     using System;
     using System.Collections.Generic;

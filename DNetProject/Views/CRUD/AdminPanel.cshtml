@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewBag.Title = "AdminPanel";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" type="text/css" href="~/Content/admin.css">
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<h2>AdminPanel</h2>
+<div class="admin-panel">
+    <button class="admin-btn">
+        @Html.ActionLink("Zarządzaj Użytkownikami", "UserList", "CRUD")
+    </button>
+    <button class="admin-btn">
+        @Html.ActionLink("Aplikacje na moderatora", "ModeratorApplicationList", "AdminPanel")
+    </button>
+    <button class="admin-btn">
+        @Html.ActionLink("Dodaj Zdjęcie", "AddPictures", "CRUD")
+    </button>
+</div>

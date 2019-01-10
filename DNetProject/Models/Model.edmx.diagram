@@ -13,6 +13,8 @@
         <AssociationConnector Association="ProjektModel.FK__Pictures__id_com__276EDEB3" ManuallyRouted="false" />
         <AssociationConnector Association="ProjektModel.FK__Pictures__id_use__286302EC" ManuallyRouted="false" />
         <AssociationConnector Association="ProjektModel.FK__Users__role_id__1FCDBCEB" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="ProjektModel.Album" Width="1.5" PointX="4" PointY="5.5" />
+        <AssociationConnector Association="ProjektModel.PicturesAlbums" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

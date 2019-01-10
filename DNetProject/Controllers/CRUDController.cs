@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using DNetProject.Models;
+using System.Data.Entity.Validation;
 
 namespace DNetProject.Controllers
 {
     public class CRUDController : Controller
     {
         // GET: CRUD
-        public ActionResult CRUDPanel()
+        public ActionResult AdminPanel()
         {
             return View();
         }
@@ -68,11 +70,11 @@ namespace DNetProject.Controllers
 
                 using (ProjektEntities context = new ProjektEntities())
                 {
-                    var user = context.Users.Where(a => a.UserId == userId).FirstOrDefault();
-                    user.Email = userModel.Email;
-                    user.Username = userModel.Username;
-                    user.RoleId = userModel.RoleId;
-                    user.ConfirmPassword = user.Password;
+                    var user = context.Users.Where(a => a.id == userId).FirstOrDefault();
+                    user.email = userModel.email;
+                    user.username = userModel.username;
+                    user.role_id = userModel.role_id;
+                    user.ConfirmPassword = user.password;
 
                     context.SaveChanges();
 
@@ -86,7 +88,7 @@ namespace DNetProject.Controllers
 
             foreach (User user in userList)
             {
-                user.RoleName = GetRoleName(user.RoleId);
+                user.RoleName = GetRoleName(user.role_id);
             }
 
             return View("UserList", userList);
@@ -115,42 +117,6 @@ namespace DNetProject.Controllers
             }
         }
 
-        public ActionResult Details(int id)
-        {
-            using (ProjektEntities context = new ProjektEntities())
-            {
-                var app = context.ModeratorApplications.Where(a => a.ModeratorApplicationId == id).FirstOrDefault();
-                if (app != null)
-                    app.User.Username = UserName(app.UserId);
-
-                return View(app);
-            }
-        }
-        public ActionResult AddCategory()
-        {
-
-            return View();
-        }
-        [HttpPost]
-        public ActionResult AddCategory(Category category)
-        {
-            using (ProjektEntities context = new ProjektEntities())
-            {
-                foreach (var cat in context.Categories)
-                {
-                    if (category.CategoryName == cat.CategoryName)
-                    {
-                        ViewBag.error = "Kategoria o takiej nazwie już istnieje";
-                        return View();
-                    }
-                }
-                context.Categories.Add(category);
-                context.SaveChanges();
-            }
-
-            ViewBag.cat = category.CategoryName;
-            return View("CategoryAdded");
-        }
+       
     }
-}
 }

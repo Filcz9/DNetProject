@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DNetProject
+namespace DNetProject.Models
 {
     using System;
     using System.Data.Entity;
@@ -29,5 +29,6 @@ namespace DNetProject
         public virtual DbSet<Picture> Pictures { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Album> Albums { get; set; }
     }
 }

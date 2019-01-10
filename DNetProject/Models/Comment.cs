@@ -7,21 +7,26 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DNetProject
+namespace DNetProject.Models
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Picture
+    public partial class Comment
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Comment()
+        {
+            this.Pictures = new HashSet<Picture>();
+        }
+    
         public int id { get; set; }
-        public byte[] img { get; set; }
         public System.DateTime upload_date { get; set; }
-        public string descr { get; set; }
-        public Nullable<int> id_comment { get; set; }
+        public string text { get; set; }
         public Nullable<int> id_user { get; set; }
     
-        public virtual Comment Comment { get; set; }
         public virtual User User { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Picture> Pictures { get; set; }
     }
 }
