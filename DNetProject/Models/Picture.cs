@@ -21,13 +21,13 @@ namespace DNetProject.Models
         }
     
         public int id { get; set; }
-        public byte[] img { get; set; }
-        public System.DateTime upload_date { get; set; }
-        public string descr { get; set; }
+        public string img { get; set; }
+        public Nullable<System.DateTime> upload_date { get; set; }
+        public string description { get; set; }
         public Nullable<int> id_comment { get; set; }
         public Nullable<int> id_user { get; set; }
-        public Nullable<int> rating { get; set; }
         public string title { get; set; }
+        public Nullable<int> rating { get; set; }
     
         public virtual Comment Comment { get; set; }
         public virtual User User { get; set; }

@@ -155,6 +155,8 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\UploadController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Models\Album.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -167,6 +169,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Extended\Picture.cs" />
+    <Compile Include="Models\Extended\ResetPasswordModel.cs" />
+    <Compile Include="Models\Extended\UserLogin.cs" />
     <Compile Include="Models\Model.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -253,6 +257,13 @@
     <Content Include="Views\CRUD\UserList.cshtml" />
     <Content Include="Views\CRUD\AdminPanel.cshtml" />
     <Content Include="Views\CRUD\Test.cshtml" />
+    <Content Include="Views\User\Login.cshtml" />
+    <Content Include="Views\User\Registration.cshtml" />
+    <Content Include="Views\User\ForgotPassword.cshtml" />
+    <Content Include="Views\User\ResetPassword.cshtml" />
+    <Content Include="Views\User\VerifyAccount.cshtml" />
+    <Content Include="Views\CRUD\AddAlbum.cshtml" />
+    <Content Include="Views\Upload\AddPicture.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

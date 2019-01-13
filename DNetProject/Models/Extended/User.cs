@@ -34,7 +34,7 @@ namespace DNetProject.Models
 
         [Display(Name = "Confirm Password")]
         [DataType(DataType.Password)]
-        [Compare("Password", ErrorMessage = "Hasło i potwiedzenie hasła nie zgadzają się")]
+        [Compare("password", ErrorMessage = "Hasło i potwiedzenie hasła nie zgadzają się")]
         public string ConfirmPassword { get; set; }
 
     }

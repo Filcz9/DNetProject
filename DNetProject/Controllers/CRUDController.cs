@@ -117,6 +117,33 @@ namespace DNetProject.Controllers
             }
         }
 
-       
+
+        public ActionResult AddAlbum()
+        {
+
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AddAlbum(Album album)
+        {
+            using (ProjektEntities context = new ProjektEntities())
+            {
+                foreach (var al in context.Albums)
+                {
+                    if (album.album_name == al.album_name)
+                    {
+                        ViewBag.error = "Kategoria o takiej nazwie już istnieje";
+                        return View();
+                    }
+                }
+                context.Albums.Add(album);
+                context.SaveChanges();
+            }
+
+            ViewBag.cat = album.album_name;
+            return View("CategoryAdded");
+        }
     }
+
 }
+

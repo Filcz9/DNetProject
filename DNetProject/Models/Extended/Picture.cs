@@ -4,18 +4,17 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace DNetProject.Models.Extended
+namespace DNetProject.Models
 {
-    public class Picture
+
+        [MetadataType(typeof(PictureMetadata))]
+        public partial class Picture
     {
-        [MetadataType(typeof(GagMetadata))]
-        public partial class Gag
-        {
             public List<Album> AlbumCollection { get; set; }
             public DateTime InteractionDate { get; set; }
         }
 
-        public partial class GagMetadata
+        public partial class PictureMetadata
         {
             [Display(Name = "Tytuł")]
             [Required(AllowEmptyStrings = false, ErrorMessage = "Tytuł jest wymagany")]
@@ -31,4 +30,4 @@ namespace DNetProject.Models.Extended
             public string AlbumId { get; set; }
         }
     }
-}
+

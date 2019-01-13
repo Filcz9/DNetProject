@@ -21,7 +21,7 @@ namespace DNetProject.Models
         }
     
         public int id { get; set; }
-        public System.DateTime upload_date { get; set; }
+        public Nullable<System.DateTime> upload_date { get; set; }
         public string text { get; set; }
         public Nullable<int> id_user { get; set; }
     

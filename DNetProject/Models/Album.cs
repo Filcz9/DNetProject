@@ -22,6 +22,7 @@ namespace DNetProject.Models
     
         public int id { get; set; }
         public string album_name { get; set; }
+        public int visibility { get; set; }
         public string album_number { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

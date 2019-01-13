@@ -1,0 +1,20 @@
+﻿@{
+    Layout = null;
+}
+
+<link rel="stylesheet" type="text/css" href="~/Content/login.css">
+
+<h1 class="loginH2">Account verification</h1>
+
+@if (ViewBag.Status != null && Convert.ToBoolean(ViewBag.Status))
+{
+    <div class="alert alert-success" style="text-align: center">
+        <strong>Success!</strong> Your account has been activated successfully. Click to @Html.ActionLink("Login", "Login", "User")
+    </div>
+}
+else
+{
+    <div class="alert alert-danger">
+        <strong>Error!</strong> @ViewBag.Message
+    </div>
+}

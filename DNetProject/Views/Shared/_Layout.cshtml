@@ -24,6 +24,20 @@
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                     <li>@Html.ActionLink("AdminPanel", "AdminPanel", "CRUD")</li>
+                    <li>@Html.ActionLink("AddPicture", "Upload", "Upload")</li>
+                    <li>
+                        <a href="@Url.Action("Login", "User")">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Zaloguj
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="register-btn" href="@Url.Action("Registration", "User")">
+                            <i class="fa fa-user-plus register-i"></i>
+                            <span class="register-span">Rejestracja</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>

@@ -25,10 +25,10 @@ namespace DNetProject.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Album> Albums { get; set; }
         public virtual DbSet<Comment> Comments { get; set; }
         public virtual DbSet<Picture> Pictures { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<Album> Albums { get; set; }
     }
 }

@@ -5,15 +5,15 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="2e7b2a15bad847f3b6cf828f2bab3638" Name="Diagram1">
-        <EntityTypeShape EntityType="ProjektModel.Comment" Width="1.5" PointX="5.25" PointY="1.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProjektModel.Picture" Width="1.5" PointX="7.5" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProjektModel.Role" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProjektModel.User" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <AssociationConnector Association="ProjektModel.FK__Comments__id_use__239E4DCF" ManuallyRouted="false" />
-        <AssociationConnector Association="ProjektModel.FK__Pictures__id_com__276EDEB3" ManuallyRouted="false" />
-        <AssociationConnector Association="ProjektModel.FK__Pictures__id_use__286302EC" ManuallyRouted="false" />
-        <AssociationConnector Association="ProjektModel.FK__Users__role_id__1FCDBCEB" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="ProjektModel.Album" Width="1.5" PointX="4" PointY="5.5" />
+        <EntityTypeShape EntityType="ProjektModel.Album" Width="1.5" PointX="5.25" PointY="5.5" />
+        <EntityTypeShape EntityType="ProjektModel.Comment" Width="1.5" PointX="5.25" PointY="1.5" />
+        <EntityTypeShape EntityType="ProjektModel.Picture" Width="1.5" PointX="7.5" PointY="1.125" />
+        <EntityTypeShape EntityType="ProjektModel.Role" Width="1.5" PointX="0.75" PointY="1.75" />
+        <EntityTypeShape EntityType="ProjektModel.User" Width="1.5" PointX="3" PointY="1" />
+        <AssociationConnector Association="ProjektModel.FK__Comments__id_use__7C4F7684" />
+        <AssociationConnector Association="ProjektModel.FK__Pictures__id_com__01142BA1" />
+        <AssociationConnector Association="ProjektModel.FK__Pictures__id_use__02084FDA" />
+        <AssociationConnector Association="ProjektModel.FK__Users__role_id__60A75C0F" />
         <AssociationConnector Association="ProjektModel.PicturesAlbums" />
       </Diagram>
     </edmx:Diagrams>
