@@ -15,22 +15,22 @@ namespace DNetProject.Controllers
         public ActionResult Upload()
         {
 
-            Picture picture = new Picture();
+            Pictures picture = new Pictures();
 
             using (ProjektEntities context = new ProjektEntities())
             {
-                picture.AlbumCollection = context.Albums.ToList<Album>();
+                picture.AlbumCollection = context.Albums.ToList<Albums>();
             }
             return View(picture);
         }
 
         [HttpPost]
-        public ActionResult Upload(HttpPostedFileBase file, Picture Picture, Album album)
+        public ActionResult Upload(HttpPostedFileBase file, Pictures Picture)
         {
 
-
+            
             var currentUserId = UserId(User.Identity.Name);
-            if (file != null && Picture.title != null && Picture.Albums != null)
+            if (file != null && Picture.title != null)
             {
                 string pic = System.IO.Path.GetFileName(file.FileName);
                 string path = System.IO.Path.Combine(
@@ -41,25 +41,34 @@ namespace DNetProject.Controllers
                 
                 using (ProjektEntities context = new ProjektEntities())
                 {
-                    
-                    Picture Picture2 = new Picture
+
+                    Pictures Picture2 = new Pictures
                     {
+                        AlbumId = Picture.AlbumId,
                         title = Picture.title,
-                        img = pathDB,                        
-                        id_user = currentUserId
+                        description = Picture.description,
+                        img = pic,
+                        id_user = currentUserId,
+                        rating = 0
                     };
                     context.Pictures.Add(Picture2);
+                    PicturesAlbums pical = new PicturesAlbums
+                    {
+                        album_id = Picture2.AlbumId,
+                        pictures_id = Picture2.id
+                    };
+                    context.PicturesAlbums.Add(pical);
                     context.SaveChanges();
                 }
                 return RedirectToAction("Index", "Home");
             }
             else
             {
-                Picture PictureModel = new Picture();
+                Pictures PictureModel = new Pictures();
 
                 using (ProjektEntities context = new ProjektEntities())
                 {
-                    PictureModel.AlbumCollection = context.Albums.ToList<Album>();
+                    PictureModel.AlbumCollection = context.Albums.ToList<Albums>();
                 }
                 return View("Upload", PictureModel);
             }

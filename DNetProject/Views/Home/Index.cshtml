@@ -1,31 +1,48 @@
-﻿@{
+﻿@model DNetProject.Models.HomeModel
+
+@{
     ViewBag.Title = "Home Page";
 }
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
 
+<link rel="stylesheet" type="text/css" href="~/Content/home.css">
 <div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+    <h1>IGags</h1>
+    <p class="lead">Miejsce w którym zaczyna się zabawa.</p>
 </div>
+<div class="gag-section" id="gag-section">
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
+    @foreach (var item in Model.pictureList)
+    {
+        <div class="gag-object">
+            <a target="_blank" href="@Url.Action("Gag", "Gag", new {gagId = item.id})">
+                <span class="gag-title">@Html.DisplayFor(modelItem => item.title)</span><br />
+            </a>
+
+            <img class="gag-picture" src="~/UserGagImages/@Html.DisplayFor(modelItem => item.img)" style="width: 460px"> <br />
+            <div class="category-delete">
+
+                @if (Request.IsAuthenticated)
+                {
+                    if (User.IsInRole("Admin"))
+                    {
+                        <div class="delete-flex">
+                            <a onclick="return confirm('Are you sure?')" href=@Url.Action("DeleteGag", "Home", new {gagId = item.id}) class="fas fa-times fa-2x" style="color: red;"></a>
+                        </div>
+                    }
+                }
+
+            </div>
+
+            <div id="@item.id">
+                <div class="gag-points" id="gag-points">
+                    <span class="gag-points">@Html.DisplayFor(modelItem => item.rating) points</span><br />
+                </div>
+
+            </div>
+        </div>
+        <hr style="border-color: #383636;" />
+    }
 </div>

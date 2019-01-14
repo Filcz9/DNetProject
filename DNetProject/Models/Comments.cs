@@ -12,20 +12,21 @@ namespace DNetProject.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Album
+    public partial class Comments
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Album()
+        public Comments()
         {
-            this.Pictures = new HashSet<Picture>();
+            this.Pictures = new HashSet<Pictures>();
         }
     
         public int id { get; set; }
-        public string album_name { get; set; }
-        public int visibility { get; set; }
-        public string album_number { get; set; }
+        public Nullable<System.DateTime> upload_date { get; set; }
+        public string text { get; set; }
+        public Nullable<int> id_user { get; set; }
     
+        public virtual Users Users { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Picture> Pictures { get; set; }
+        public virtual ICollection<Pictures> Pictures { get; set; }
     }
 }

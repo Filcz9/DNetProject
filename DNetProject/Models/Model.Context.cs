@@ -16,7 +16,7 @@ namespace DNetProject.Models
     public partial class ProjektEntities : DbContext
     {
         public ProjektEntities()
-            : base("name=ProjektEntities")
+            : base("name=ProjektEntities1")
         {
         }
     
@@ -25,10 +25,11 @@ namespace DNetProject.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Album> Albums { get; set; }
-        public virtual DbSet<Comment> Comments { get; set; }
-        public virtual DbSet<Picture> Pictures { get; set; }
-        public virtual DbSet<Role> Roles { get; set; }
-        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Albums> Albums { get; set; }
+        public virtual DbSet<Comments> Comments { get; set; }
+        public virtual DbSet<Pictures> Pictures { get; set; }
+        public virtual DbSet<PicturesAlbums> PicturesAlbums { get; set; }
+        public virtual DbSet<Roles> Roles { get; set; }
+        public virtual DbSet<Users> Users { get; set; }
     }
 }

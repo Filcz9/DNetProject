@@ -1,4 +1,4 @@
-﻿@model IEnumerable<DNetProject.Models.User>
+﻿@model IEnumerable<DNetProject.Models.Users>
 
 @{
     ViewBag.Title = "UserList";
@@ -37,7 +37,7 @@
                 @Html.DisplayFor(modelItem => item.RoleName)
             </td>
             <td>
-                @Html.ActionLink("Edit", "EditUser", "AdminPanel", new { username = item.username }, null) |
+                @Html.ActionLink("Edit", "EditUser", "CRUD", new { username = item.username }, null) |
                 @Html.ActionLink("Delete", "DeleteUser", "AdminPanel", new { username = item.username }, null)
             </td>
         </tr>

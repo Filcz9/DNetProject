@@ -24,7 +24,7 @@ namespace DNetProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Registration([Bind(Exclude = "IsEmailVerified,ActivationCode")] User user)
+        public ActionResult Registration([Bind(Exclude = "IsEmailVerified,ActivationCode")] Users user)
         {
             bool Status = false;
             string message = "";

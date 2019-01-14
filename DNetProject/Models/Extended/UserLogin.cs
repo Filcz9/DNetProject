@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace DNetProject.Models.Extended
+namespace DNetProject.Models
 {
     public class UserLogin
     {

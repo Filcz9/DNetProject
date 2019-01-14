@@ -6,15 +6,15 @@ using System.Web;
 
 namespace DNetProject.Models
 {
-    [MetadataType(typeof(UserMetadata))]
-    public partial class User
+    [MetadataType(typeof(UsersMetadata))]
+    public partial class Users
     {
         public string ConfirmPassword { get; set; }
         public string RoleName { get; set; }
-        public List<Role> RoleCollection { get; set; }
+        public List<Roles> RoleCollection { get; set; }
     }
 
-    public class UserMetadata
+    public class UsersMetadata
     {
         [Display(Name = "Username")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Nazwa użytkownika jest wymagana")]

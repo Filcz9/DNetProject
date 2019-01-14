@@ -4,17 +4,19 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="2e7b2a15bad847f3b6cf828f2bab3638" Name="Diagram1">
-        <EntityTypeShape EntityType="ProjektModel.Album" Width="1.5" PointX="5.25" PointY="5.5" />
-        <EntityTypeShape EntityType="ProjektModel.Comment" Width="1.5" PointX="5.25" PointY="1.5" />
-        <EntityTypeShape EntityType="ProjektModel.Picture" Width="1.5" PointX="7.5" PointY="1.125" />
-        <EntityTypeShape EntityType="ProjektModel.Role" Width="1.5" PointX="0.75" PointY="1.75" />
-        <EntityTypeShape EntityType="ProjektModel.User" Width="1.5" PointX="3" PointY="1" />
-        <AssociationConnector Association="ProjektModel.FK__Comments__id_use__7C4F7684" />
-        <AssociationConnector Association="ProjektModel.FK__Pictures__id_com__01142BA1" />
-        <AssociationConnector Association="ProjektModel.FK__Pictures__id_use__02084FDA" />
-        <AssociationConnector Association="ProjektModel.FK__Users__role_id__60A75C0F" />
-        <AssociationConnector Association="ProjektModel.PicturesAlbums" />
+      <Diagram DiagramId="3a31b8247c8e42ada91343f3a129e62d" Name="Diagram1">
+        <EntityTypeShape EntityType="ProjektModel.Albums" Width="1.5" PointX="7.5" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProjektModel.Comments" Width="1.5" PointX="5.25" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProjektModel.Pictures" Width="1.5" PointX="7.5" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProjektModel.PicturesAlbums" Width="1.5" PointX="9.75" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProjektModel.Roles" Width="1.5" PointX="0.75" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProjektModel.Users" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <AssociationConnector Association="ProjektModel.FK__PicturesA__album__04E4BC85" ManuallyRouted="false" />
+        <AssociationConnector Association="ProjektModel.FK__Comments__id_use__7C4F7684" ManuallyRouted="false" />
+        <AssociationConnector Association="ProjektModel.FK__Pictures__id_com__01142BA1" ManuallyRouted="false" />
+        <AssociationConnector Association="ProjektModel.FK__Pictures__id_use__02084FDA" ManuallyRouted="false" />
+        <AssociationConnector Association="ProjektModel.FK__PicturesA__pictu__05D8E0BE" ManuallyRouted="false" />
+        <AssociationConnector Association="ProjektModel.FK__Users__role_id__60A75C0F" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -17,13 +17,13 @@ namespace DNetProject.Controllers
         }
         public ActionResult UserList()
         {
-            List<User> userList = new List<User>();
+            List<Users> userList = new List<Users>();
             using (ProjektEntities context = new ProjektEntities())
             {
                 userList = context.Users.ToList();
             }
 
-            foreach (User user in userList)
+            foreach (Users user in userList)
             {
                 user.RoleName = GetRoleName(user.role_id);
             }
@@ -33,7 +33,7 @@ namespace DNetProject.Controllers
 
         public ActionResult DeleteUser(string username)
         {
-            List<User> userList = new List<User>();
+            List<Users> userList = new List<Users>();
             using (ProjektEntities context = new ProjektEntities())
             {
                 var user = context.Users.Where(a => a.username == username).FirstOrDefault();
@@ -42,7 +42,7 @@ namespace DNetProject.Controllers
                 userList = context.Users.ToList();
             }
 
-            foreach (User user in userList)
+            foreach (Users user in userList)
             {
                 user.RoleName = GetRoleName(user.role_id);
             }
@@ -55,15 +55,15 @@ namespace DNetProject.Controllers
             using (ProjektEntities context = new ProjektEntities())
             {
                 var user = context.Users.Where(a => a.username == username).FirstOrDefault();
-                user.RoleCollection = context.Roles.ToList<Role>();
+                user.RoleCollection = context.Roles.ToList<Roles>();
 
                 return View(user);
             }
         }
         [HttpPost]
-        public ActionResult EditUser(User userModel, int userId, string userPassword)
+        public ActionResult EditUser(Users userModel, int userId, string userPassword)
         {
-            List<User> userList = new List<User>();
+            List<Users> userList = new List<Users>();
             try
             {
 
@@ -86,7 +86,7 @@ namespace DNetProject.Controllers
                 Console.WriteLine(e);
             }
 
-            foreach (User user in userList)
+            foreach (Users user in userList)
             {
                 user.RoleName = GetRoleName(user.role_id);
             }
@@ -124,7 +124,7 @@ namespace DNetProject.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult AddAlbum(Album album)
+        public ActionResult AddAlbum(Albums album)
         {
             using (ProjektEntities context = new ProjektEntities())
             {

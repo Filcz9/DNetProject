@@ -20,24 +20,61 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("AdminPanel", "AdminPanel", "CRUD")</li>
                     <li>@Html.ActionLink("AddPicture", "Upload", "Upload")</li>
-                    <li>
-                        <a href="@Url.Action("Login", "User")">
-                            <i class="fas fa-sign-in-alt"></i>
-                            Zaloguj
-                        </a>
-                    </li>
+                    @if (@Request.IsAuthenticated)
+                    {
+                        if (User.IsInRole("Admin"))
+                        {
+                            <li class="admin-panel-btn">@Html.ActionLink("AdminPanel", "AdminPanel", "CRUD")</li>
+                        }
 
-                    <li>
-                        <a class="register-btn" href="@Url.Action("Registration", "User")">
-                            <i class="fa fa-user-plus register-i"></i>
-                            <span class="register-span">Rejestracja</span>
-                        </a>
-                    </li>
+                        <li>
+
+                            @*<span data-toggle="tooltip" title="Description" data-placement="right">
+                    @Html.Action("NavBar", "Home")
+                </span>*@
+                            <button type="button" class="btn navbar-btn userHover" style="background-color: black; color: white; font-family: Monte" data-toggle="dropdown">  @User.Identity.Name <i class="fa fa-angle-down"></i></button>
+
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a href="@Url.Action("ProfileIndex", "Profile")">
+                                        Profil
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="javascript:document.getElementById('logoutForm').submit()">
+                                        @using (Html.BeginForm("Logout", "User", FormMethod.Post, new { id = "logoutForm" }))
+                                        {
+
+                                        }
+                                        Wyloguj
+                                        @*<span style="color: red;" class="fas fa-sign-out-alt"></span>*@
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+
+                    }
+                    else
+                    {
+
+                        <li>
+                            <a href="@Url.Action("Login", "User")">
+                                <i class="fas fa-sign-in-alt"></i>
+                                Zaloguj
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="register-btn" href="@Url.Action("Registration", "User")">
+                                <i class="fa fa-user-plus register-i"></i>
+                                <span class="register-span">Rejestracja</span>
+                            </a>
+                        </li>
+                    }
+
                 </ul>
             </div>
         </div>

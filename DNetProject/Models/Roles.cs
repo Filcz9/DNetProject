@@ -12,28 +12,18 @@ namespace DNetProject.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class User
+    public partial class Roles
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public User()
+        public Roles()
         {
-            this.Comments = new HashSet<Comment>();
-            this.Pictures = new HashSet<Picture>();
+            this.Users = new HashSet<Users>();
         }
     
         public int id { get; set; }
-        public string username { get; set; }
-        public string password { get; set; }
-        public string email { get; set; }
-        public bool IsEmailVerified { get; set; }
-        public System.Guid ActivationCode { get; set; }
-        public string ResetPasswordCode { get; set; }
-        public Nullable<int> role_id { get; set; }
+        public string name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Comment> Comments { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Picture> Pictures { get; set; }
-        public virtual Role Role { get; set; }
+        public virtual ICollection<Users> Users { get; set; }
     }
 }
