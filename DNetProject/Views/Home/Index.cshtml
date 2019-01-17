@@ -7,42 +7,76 @@
 <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 
-<link rel="stylesheet" type="text/css" href="~/Content/home.css">
+<link rel="stylesheet" type="text/css" href="~/Content/Home.css">
 <div class="jumbotron">
-    <h1>IGags</h1>
-    <p class="lead">Miejsce w którym zaczyna się zabawa.</p>
+    <h1>Fajne Zdjęcia</h1>
 </div>
-<div class="gag-section" id="gag-section">
 
-    @foreach (var item in Model.pictureList)
+<div class="home-container" id="home-container">
+
+
+
+
+    @if (Request.IsAuthenticated)
     {
-        <div class="gag-object">
-            <a target="_blank" href="@Url.Action("Gag", "Gag", new {gagId = item.id})">
-                <span class="gag-title">@Html.DisplayFor(modelItem => item.title)</span><br />
-            </a>
-
-            <img class="gag-picture" src="~/UserGagImages/@Html.DisplayFor(modelItem => item.img)" style="width: 460px"> <br />
-            <div class="category-delete">
-
-                @if (Request.IsAuthenticated)
+        if (User.IsInRole("User"))
+        {
+            <div class="album-section" id="album-section">
+                <h3>Prywatne Albumy</h3>
+                @foreach (var item in Model.privateList)
                 {
-                    if (User.IsInRole("Admin"))
-                    {
-                        <div class="delete-flex">
-                            <a onclick="return confirm('Are you sure?')" href=@Url.Action("DeleteGag", "Home", new {gagId = item.id}) class="fas fa-times fa-2x" style="color: red;"></a>
+                    <a href="@Url.Action("Album", "Album", new {albumId = item.id})" style="text-decoration: none;">
+                        <div class="category-object">
+                            <span class="category-span">@Html.DisplayFor(modelItem => item.album_name)</span><br />
                         </div>
-                    }
+                    </a>
                 }
-
             </div>
+        }
+    }
 
-            <div id="@item.id">
-                <div class="gag-points" id="gag-points">
-                    <span class="gag-points">@Html.DisplayFor(modelItem => item.rating) points</span><br />
+
+    <div class="picture-section" id="picture-section">
+
+        @foreach (var item in Model.pictureList)
+        {
+            <div class="gag-object">
+                <a target="_blank" href="@Url.Action("Picture", "Picture", new {gagId = item.id})">
+                    <span class="gag-title">@Html.DisplayFor(modelItem => item.title)</span><br />
+                </a>
+
+                <img class="gag-picture" src="~/UserPictureImages/@Html.DisplayFor(modelItem => item.img)" style="width: 460px"> <br />
+                <div class="category-delete">
+
+                    @if (Request.IsAuthenticated)
+                    {
+                        if (User.IsInRole("Admin"))
+                        {
+                            <div class="delete-flex">
+                                <a onclick="return confirm('Are you sure?')" href=@Url.Action("DeleteGag", "Home", new {gagId = item.id}) class="fas fa-times fa-2x" style="color: red;"></a>
+                            </div>
+                        }
+                    }
+
                 </div>
 
             </div>
-        </div>
-        <hr style="border-color: #383636;" />
-    }
+            <hr style="border-color: #383636;" />
+        }
+    </div>
+
+
+            <div class="album-section" id="album-section">
+                <h3>Publiczne Albumy</h3>
+                @foreach (var item in Model.albumList)
+                {
+                    <a href=@Url.Action("Album", "Album", new {albumId = item.id}) style="text-decoration: none;">
+                        <div class="category-object">
+                            <span class="category-span">@Html.DisplayFor(modelItem => item.album_name)</span><br />
+                        </div>
+                    </a>
+                }
+            </div>
+        
+    
 </div>

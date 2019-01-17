@@ -4,15 +4,16 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="ProjektModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="ProjektModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Albums">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="album_name" Type="varchar" MaxLength="30" Nullable="false" />
-          <Property Name="visibility" Type="int" Nullable="false" />
-          <Property Name="album_number" Type="varchar" MaxLength="9" Nullable="false" />
+          <Property Name="visibility" Type="int" />
+          <Property Name="album_number" Type="varchar" MaxLength="30" />
+          <Property Name="id_user" Type="int" />
         </EntityType>
         <EntityType Name="Comments">
           <Key>
@@ -22,6 +23,7 @@
           <Property Name="upload_date" Type="smalldatetime" />
           <Property Name="text" Type="varchar" MaxLength="500" Nullable="false" />
           <Property Name="id_user" Type="int" />
+          <Property Name="id_picture" Type="int" />
         </EntityType>
         <EntityType Name="Pictures">
           <Key>
@@ -29,20 +31,18 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="img" Type="varchar(max)" Nullable="false" />
+          <Property Name="title" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="upload_date" Type="smalldatetime" />
           <Property Name="description" Type="varchar" MaxLength="400" Nullable="false" />
-          <Property Name="id_comment" Type="int" />
           <Property Name="id_user" Type="int" />
-          <Property Name="title" Type="varchar" MaxLength="30" Nullable="false" />
-          <Property Name="rating" Type="int" />
         </EntityType>
         <EntityType Name="PicturesAlbums">
           <Key>
             <PropertyRef Name="id" />
           </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="album_id" Type="int" Nullable="false" />
           <Property Name="pictures_id" Type="int" Nullable="false" />
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <EntityType Name="Roles">
           <Key>
@@ -63,8 +63,22 @@
           <Property Name="ActivationCode" Type="uniqueidentifier" Nullable="false" />
           <Property Name="ResetPasswordCode" Type="varchar(max)" />
           <Property Name="role_id" Type="int" />
+          <Property Name="pesel" Type="varchar" MaxLength="11" />
+          <Property Name="birthdate" Type="date" />
         </EntityType>
-        <Association Name="FK__Comments__id_use__7C4F7684">
+        <Association Name="FK__Comments__id_pic__690797E6">
+          <End Role="Pictures" Type="Self.Pictures" Multiplicity="0..1" />
+          <End Role="Comments" Type="Self.Comments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pictures">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Comments">
+              <PropertyRef Name="id_picture" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Comments__id_use__681373AD">
           <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
           <End Role="Comments" Type="Self.Comments" Multiplicity="*" />
           <ReferentialConstraint>
@@ -76,19 +90,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Pictures__id_com__01142BA1">
-          <End Role="Comments" Type="Self.Comments" Multiplicity="0..1" />
-          <End Role="Pictures" Type="Self.Pictures" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Comments">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Pictures">
-              <PropertyRef Name="id_comment" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Pictures__id_use__02084FDA">
+        <Association Name="FK__Pictures__id_use__5E8A0973">
           <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
           <End Role="Pictures" Type="Self.Pictures" Multiplicity="*" />
           <ReferentialConstraint>
@@ -100,7 +102,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__PicturesA__album__04E4BC85">
+        <Association Name="FK__PicturesA__album__6CD828CA">
           <End Role="Albums" Type="Self.Albums" Multiplicity="1" />
           <End Role="PicturesAlbums" Type="Self.PicturesAlbums" Multiplicity="*" />
           <ReferentialConstraint>
@@ -112,7 +114,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__PicturesA__pictu__05D8E0BE">
+        <Association Name="FK__PicturesA__pictu__6DCC4D03">
           <End Role="Pictures" Type="Self.Pictures" Multiplicity="1" />
           <End Role="PicturesAlbums" Type="Self.PicturesAlbums" Multiplicity="*" />
           <ReferentialConstraint>
@@ -143,23 +145,23 @@
           <EntitySet Name="PicturesAlbums" EntityType="Self.PicturesAlbums" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Comments__id_use__7C4F7684" Association="Self.FK__Comments__id_use__7C4F7684">
+          <AssociationSet Name="FK__Comments__id_pic__690797E6" Association="Self.FK__Comments__id_pic__690797E6">
+            <End Role="Pictures" EntitySet="Pictures" />
+            <End Role="Comments" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Comments__id_use__681373AD" Association="Self.FK__Comments__id_use__681373AD">
             <End Role="Users" EntitySet="Users" />
             <End Role="Comments" EntitySet="Comments" />
           </AssociationSet>
-          <AssociationSet Name="FK__Pictures__id_com__01142BA1" Association="Self.FK__Pictures__id_com__01142BA1">
-            <End Role="Comments" EntitySet="Comments" />
-            <End Role="Pictures" EntitySet="Pictures" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Pictures__id_use__02084FDA" Association="Self.FK__Pictures__id_use__02084FDA">
+          <AssociationSet Name="FK__Pictures__id_use__5E8A0973" Association="Self.FK__Pictures__id_use__5E8A0973">
             <End Role="Users" EntitySet="Users" />
             <End Role="Pictures" EntitySet="Pictures" />
           </AssociationSet>
-          <AssociationSet Name="FK__PicturesA__album__04E4BC85" Association="Self.FK__PicturesA__album__04E4BC85">
+          <AssociationSet Name="FK__PicturesA__album__6CD828CA" Association="Self.FK__PicturesA__album__6CD828CA">
             <End Role="Albums" EntitySet="Albums" />
             <End Role="PicturesAlbums" EntitySet="PicturesAlbums" />
           </AssociationSet>
-          <AssociationSet Name="FK__PicturesA__pictu__05D8E0BE" Association="Self.FK__PicturesA__pictu__05D8E0BE">
+          <AssociationSet Name="FK__PicturesA__pictu__6DCC4D03" Association="Self.FK__PicturesA__pictu__6DCC4D03">
             <End Role="Pictures" EntitySet="Pictures" />
             <End Role="PicturesAlbums" EntitySet="PicturesAlbums" />
           </AssociationSet>
@@ -168,8 +170,7 @@
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ProjektModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -179,9 +180,10 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="album_name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="visibility" Type="Int32" Nullable="false" />
-          <Property Name="album_number" Type="String" MaxLength="9" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="PicturesAlbums" Relationship="Self.FK__PicturesA__album__04E4BC85" FromRole="Albums" ToRole="PicturesAlbums" />
+          <Property Name="visibility" Type="Int32" />
+          <Property Name="album_number" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="id_user" Type="Int32" />
+          <NavigationProperty Name="PicturesAlbums" Relationship="Self.FK__PicturesA__album__6CD828CA" FromRole="Albums" ToRole="PicturesAlbums" />
         </EntityType>
         <EntityType Name="Comments">
           <Key>
@@ -191,8 +193,9 @@
           <Property Name="upload_date" Type="DateTime" Precision="0" />
           <Property Name="text" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="id_user" Type="Int32" />
-          <NavigationProperty Name="Users" Relationship="Self.FK__Comments__id_use__7C4F7684" FromRole="Comments" ToRole="Users" />
-          <NavigationProperty Name="Pictures" Relationship="Self.FK__Pictures__id_com__01142BA1" FromRole="Comments" ToRole="Pictures" />
+          <Property Name="id_picture" Type="Int32" />
+          <NavigationProperty Name="Pictures" Relationship="Self.FK__Comments__id_pic__690797E6" FromRole="Comments" ToRole="Pictures" />
+          <NavigationProperty Name="Users" Relationship="Self.FK__Comments__id_use__681373AD" FromRole="Comments" ToRole="Users" />
         </EntityType>
         <EntityType Name="Pictures">
           <Key>
@@ -200,25 +203,23 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="img" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="title" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="upload_date" Type="DateTime" Precision="0" />
           <Property Name="description" Type="String" MaxLength="400" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="id_comment" Type="Int32" />
           <Property Name="id_user" Type="Int32" />
-          <Property Name="title" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="rating" Type="Int32" />
-          <NavigationProperty Name="Comments" Relationship="Self.FK__Pictures__id_com__01142BA1" FromRole="Pictures" ToRole="Comments" />
-          <NavigationProperty Name="Users" Relationship="Self.FK__Pictures__id_use__02084FDA" FromRole="Pictures" ToRole="Users" />
-          <NavigationProperty Name="PicturesAlbums" Relationship="Self.FK__PicturesA__pictu__05D8E0BE" FromRole="Pictures" ToRole="PicturesAlbums" />
+          <NavigationProperty Name="Comments" Relationship="Self.FK__Comments__id_pic__690797E6" FromRole="Pictures" ToRole="Comments" />
+          <NavigationProperty Name="Users" Relationship="Self.FK__Pictures__id_use__5E8A0973" FromRole="Pictures" ToRole="Users" />
+          <NavigationProperty Name="PicturesAlbums" Relationship="Self.FK__PicturesA__pictu__6DCC4D03" FromRole="Pictures" ToRole="PicturesAlbums" />
         </EntityType>
         <EntityType Name="PicturesAlbums">
           <Key>
             <PropertyRef Name="id" />
           </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="album_id" Type="Int32" Nullable="false" />
           <Property Name="pictures_id" Type="Int32" Nullable="false" />
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="Albums" Relationship="Self.FK__PicturesA__album__04E4BC85" FromRole="PicturesAlbums" ToRole="Albums" />
-          <NavigationProperty Name="Pictures" Relationship="Self.FK__PicturesA__pictu__05D8E0BE" FromRole="PicturesAlbums" ToRole="Pictures" />
+          <NavigationProperty Name="Albums" Relationship="Self.FK__PicturesA__album__6CD828CA" FromRole="PicturesAlbums" ToRole="Albums" />
+          <NavigationProperty Name="Pictures" Relationship="Self.FK__PicturesA__pictu__6DCC4D03" FromRole="PicturesAlbums" ToRole="Pictures" />
         </EntityType>
         <EntityType Name="Roles">
           <Key>
@@ -240,11 +241,13 @@
           <Property Name="ActivationCode" Type="Guid" Nullable="false" />
           <Property Name="ResetPasswordCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="role_id" Type="Int32" />
-          <NavigationProperty Name="Comments" Relationship="Self.FK__Comments__id_use__7C4F7684" FromRole="Users" ToRole="Comments" />
-          <NavigationProperty Name="Pictures" Relationship="Self.FK__Pictures__id_use__02084FDA" FromRole="Users" ToRole="Pictures" />
+          <NavigationProperty Name="Comments" Relationship="Self.FK__Comments__id_use__681373AD" FromRole="Users" ToRole="Comments" />
+          <NavigationProperty Name="Pictures" Relationship="Self.FK__Pictures__id_use__5E8A0973" FromRole="Users" ToRole="Pictures" />
           <NavigationProperty Name="Roles" Relationship="Self.FK__Users__role_id__60A75C0F" FromRole="Users" ToRole="Roles" />
+          <Property Name="pesel" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="birthdate" Type="DateTime" Precision="0" />
         </EntityType>
-        <Association Name="FK__PicturesA__album__04E4BC85">
+        <Association Name="FK__PicturesA__album__6CD828CA">
           <End Role="Albums" Type="Self.Albums" Multiplicity="1" />
           <End Role="PicturesAlbums" Type="Self.PicturesAlbums" Multiplicity="*" />
           <ReferentialConstraint>
@@ -256,7 +259,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Comments__id_use__7C4F7684">
+        <Association Name="FK__Comments__id_pic__690797E6">
+          <End Role="Pictures" Type="Self.Pictures" Multiplicity="0..1" />
+          <End Role="Comments" Type="Self.Comments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pictures">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Comments">
+              <PropertyRef Name="id_picture" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Comments__id_use__681373AD">
           <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
           <End Role="Comments" Type="Self.Comments" Multiplicity="*" />
           <ReferentialConstraint>
@@ -268,19 +283,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Pictures__id_com__01142BA1">
-          <End Role="Comments" Type="Self.Comments" Multiplicity="0..1" />
-          <End Role="Pictures" Type="Self.Pictures" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Comments">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Pictures">
-              <PropertyRef Name="id_comment" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Pictures__id_use__02084FDA">
+        <Association Name="FK__Pictures__id_use__5E8A0973">
           <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
           <End Role="Pictures" Type="Self.Pictures" Multiplicity="*" />
           <ReferentialConstraint>
@@ -292,7 +295,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__PicturesA__pictu__05D8E0BE">
+        <Association Name="FK__PicturesA__pictu__6DCC4D03">
           <End Role="Pictures" Type="Self.Pictures" Multiplicity="1" />
           <End Role="PicturesAlbums" Type="Self.PicturesAlbums" Multiplicity="*" />
           <ReferentialConstraint>
@@ -316,30 +319,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="ProjektEntities1" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="ProjektEntities3" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Albums" EntityType="Self.Albums" />
           <EntitySet Name="Comments" EntityType="Self.Comments" />
           <EntitySet Name="Pictures" EntityType="Self.Pictures" />
           <EntitySet Name="PicturesAlbums" EntityType="Self.PicturesAlbums" />
           <EntitySet Name="Roles" EntityType="Self.Roles" />
           <EntitySet Name="Users" EntityType="Self.Users" />
-          <AssociationSet Name="FK__PicturesA__album__04E4BC85" Association="Self.FK__PicturesA__album__04E4BC85">
+          <AssociationSet Name="FK__PicturesA__album__6CD828CA" Association="Self.FK__PicturesA__album__6CD828CA">
             <End Role="Albums" EntitySet="Albums" />
             <End Role="PicturesAlbums" EntitySet="PicturesAlbums" />
           </AssociationSet>
-          <AssociationSet Name="FK__Comments__id_use__7C4F7684" Association="Self.FK__Comments__id_use__7C4F7684">
+          <AssociationSet Name="FK__Comments__id_pic__690797E6" Association="Self.FK__Comments__id_pic__690797E6">
+            <End Role="Pictures" EntitySet="Pictures" />
+            <End Role="Comments" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Comments__id_use__681373AD" Association="Self.FK__Comments__id_use__681373AD">
             <End Role="Users" EntitySet="Users" />
             <End Role="Comments" EntitySet="Comments" />
           </AssociationSet>
-          <AssociationSet Name="FK__Pictures__id_com__01142BA1" Association="Self.FK__Pictures__id_com__01142BA1">
-            <End Role="Comments" EntitySet="Comments" />
-            <End Role="Pictures" EntitySet="Pictures" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Pictures__id_use__02084FDA" Association="Self.FK__Pictures__id_use__02084FDA">
+          <AssociationSet Name="FK__Pictures__id_use__5E8A0973" Association="Self.FK__Pictures__id_use__5E8A0973">
             <End Role="Users" EntitySet="Users" />
             <End Role="Pictures" EntitySet="Pictures" />
           </AssociationSet>
-          <AssociationSet Name="FK__PicturesA__pictu__05D8E0BE" Association="Self.FK__PicturesA__pictu__05D8E0BE">
+          <AssociationSet Name="FK__PicturesA__pictu__6DCC4D03" Association="Self.FK__PicturesA__pictu__6DCC4D03">
             <End Role="Pictures" EntitySet="Pictures" />
             <End Role="PicturesAlbums" EntitySet="PicturesAlbums" />
           </AssociationSet>
@@ -353,7 +356,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="ProjektModelStoreContainer" CdmEntityContainer="ProjektEntities1">
+        <EntityContainerMapping StorageEntityContainer="ProjektModelStoreContainer" CdmEntityContainer="ProjektEntities3">
           <EntitySetMapping Name="Albums">
             <EntityTypeMapping TypeName="ProjektModel.Albums">
               <MappingFragment StoreEntitySet="Albums">
@@ -361,6 +364,7 @@
                 <ScalarProperty Name="album_name" ColumnName="album_name" />
                 <ScalarProperty Name="visibility" ColumnName="visibility" />
                 <ScalarProperty Name="album_number" ColumnName="album_number" />
+                <ScalarProperty Name="id_user" ColumnName="id_user" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -371,6 +375,7 @@
                 <ScalarProperty Name="upload_date" ColumnName="upload_date" />
                 <ScalarProperty Name="text" ColumnName="text" />
                 <ScalarProperty Name="id_user" ColumnName="id_user" />
+                <ScalarProperty Name="id_picture" ColumnName="id_picture" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -379,21 +384,19 @@
               <MappingFragment StoreEntitySet="Pictures">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="img" ColumnName="img" />
+                <ScalarProperty Name="title" ColumnName="title" />
                 <ScalarProperty Name="upload_date" ColumnName="upload_date" />
                 <ScalarProperty Name="description" ColumnName="description" />
-                <ScalarProperty Name="id_comment" ColumnName="id_comment" />
                 <ScalarProperty Name="id_user" ColumnName="id_user" />
-                <ScalarProperty Name="title" ColumnName="title" />
-                <ScalarProperty Name="rating" ColumnName="rating" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PicturesAlbums">
             <EntityTypeMapping TypeName="ProjektModel.PicturesAlbums">
               <MappingFragment StoreEntitySet="PicturesAlbums">
+                <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="album_id" ColumnName="album_id" />
                 <ScalarProperty Name="pictures_id" ColumnName="pictures_id" />
-                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -408,6 +411,8 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="ProjektModel.Users">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="birthdate" ColumnName="birthdate" />
+                <ScalarProperty Name="pesel" ColumnName="pesel" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="username" ColumnName="username" />
                 <ScalarProperty Name="password" ColumnName="password" />

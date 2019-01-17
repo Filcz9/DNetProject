@@ -1,0 +1,143 @@
+﻿@model DNetProject.Models.HomeModel
+
+@{
+    ViewBag.Title = "Picture";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="~/Content/Home.css">
+<div class="jumbotron">
+    <h1>Fajne Zdjęcia</h1>
+</div>
+<div class="home-container">
+    <div class="album-section" id="category-section">
+        <span class="category-title">KATEGORIE</span>
+        @foreach (var item in Model.privateList)
+        {
+            <a href=@Url.Action("IndexCategory", "Home", new {CategoryName = item.album_name}) style="text-decoration: none;">
+                <div class="category-object">
+                    <span class="category-span">@Html.DisplayFor(modelItem => item.album_name)</span><br />
+                </div>
+            </a>
+        }
+
+    </div>
+
+    <div class="picture-section" id="picture-section">
+
+        @foreach (var item in Model.pictureList)
+        {
+        <div class="gag-object">
+            <span class="gag-title">@Html.DisplayFor(modelItem => item.title)</span><br />
+            <img class="gag-picture" src="~/UserPictureImages/@Html.DisplayFor(modelItem => item.img)" style="width: 460px"> <br />
+
+
+            @using (Ajax.BeginForm("AddToPrivate",
+                new { id = Model.pictureId },
+                new AjaxOptions
+                {
+                    HttpMethod = "GET",
+                    UpdateTargetId = "comment-section",
+                    InsertionMode = InsertionMode.Replace,
+
+                    OnSuccess = "alert('Dodano Zdjęcie do Kategorii')"
+                }))
+            {
+
+
+                @Html.AntiForgeryToken()
+                <div class="form-group">
+                    @Html.LabelFor(model => model.album.id, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.album.id, new SelectList(Model.privateList, "id", "album_name"), "Wybierz kategorię",
+                          new { @class = "form-control form-mid" })
+                        @Html.ValidationMessageFor(model => model.album.id, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <button class="btn btn-default" type="submit"> Post </button>
+
+                    </div>
+                </div>
+            }
+            @if (Request.IsAuthenticated)
+            {
+                if (User.IsInRole("Admin") || User.IsInRole("Moderator"))
+                {
+                    <div class="delete-flex">
+                        <a onclick="return confirm('Are you sure?')" href=@Url.Action("DeleteGag", "Home", new { gagId = item.id }) class="fas fa-times fa-2x" style="color: red;"></a>
+                    </div>
+                }
+            }
+
+        </div>
+                 
+                
+            }
+        @using (Ajax.BeginForm("Comment",
+             new { id = Model.pictureId}, 
+             new AjaxOptions
+             {
+                 HttpMethod = "GET",
+                 UpdateTargetId = "comment-section",
+                 InsertionMode = InsertionMode.Replace,
+
+                }))
+        {
+
+
+        @Html.AntiForgeryToken()
+        <div class="form-horizontal">
+            <h4>Comment</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                @Html.Hidden("id", Model.pictureId)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.comment.text, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.comment.text, new { htmlAttributes = new { @class = "form-control", @onchange = "OnChangeEvent(event)" } })
+                    @Html.ValidationMessageFor(model => model.comment.text, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <button class="btn btn-default" type="submit"> Post </button>
+
+                </div>
+            </div>
+            
+        </div>
+        }
+    </div>
+    <div>
+        @foreach (var item in Model.pictureList)
+        {
+            <span class="gag-title">@Html.DisplayFor(modelItem => item.description)</span><br />
+        }
+    </div>
+    <div class="comment-section" id="comment-section">
+
+        @foreach( var item in Model.pictureComments)
+        {
+          <p>@Html.DisplayFor(modelItem => item.Users.username)</p>
+          <p>@Html.DisplayFor(modelItem => item.text)</p>
+        }
+        </div>
+    </div>
+            <script>
+                function OnChangeEvent(event) {
+                    document.getElementById("label").innerHTML = event.target.value;
+                };
+            </script>
+
+         @section Scripts {
+                @Scripts.Render("~/bundles/jqueryval")
+            }

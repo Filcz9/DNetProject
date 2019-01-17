@@ -17,19 +17,19 @@ namespace DNetProject.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Pictures()
         {
+            this.Comments = new HashSet<Comments>();
             this.PicturesAlbums = new HashSet<PicturesAlbums>();
         }
     
         public int id { get; set; }
         public string img { get; set; }
+        public string title { get; set; }
         public Nullable<System.DateTime> upload_date { get; set; }
         public string description { get; set; }
-        public Nullable<int> id_comment { get; set; }
         public Nullable<int> id_user { get; set; }
-        public string title { get; set; }
-        public Nullable<int> rating { get; set; }
     
-        public virtual Comments Comments { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Comments> Comments { get; set; }
         public virtual Users Users { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PicturesAlbums> PicturesAlbums { get; set; }

@@ -14,9 +14,9 @@ namespace DNetProject.Models
     
     public partial class PicturesAlbums
     {
+        public int id { get; set; }
         public int album_id { get; set; }
         public int pictures_id { get; set; }
-        public int id { get; set; }
     
         public virtual Albums Albums { get; set; }
         public virtual Pictures Pictures { get; set; }

@@ -1,0 +1,22 @@
+﻿.home-container {
+    display: flex;
+}
+.picture-section {
+    text-align: center;
+    max-width: 500px;
+    /*margin-left: 28%;*/
+
+    display: inline-block;
+    font-family: PopRegular;
+    position: relative;
+    left: 0%;
+}
+
+.album-section {
+    text-align: left;
+    width: 200px;
+}
+.comment-section {
+    text-align: left;
+    width: 200px;
+}

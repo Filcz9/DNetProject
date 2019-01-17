@@ -22,8 +22,9 @@ namespace DNetProject.Models
     
         public int id { get; set; }
         public string album_name { get; set; }
-        public int visibility { get; set; }
+        public Nullable<int> visibility { get; set; }
         public string album_number { get; set; }
+        public Nullable<int> id_user { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PicturesAlbums> PicturesAlbums { get; set; }

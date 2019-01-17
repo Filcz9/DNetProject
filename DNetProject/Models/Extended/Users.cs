@@ -11,6 +11,8 @@ namespace DNetProject.Models
     {
         public string ConfirmPassword { get; set; }
         public string RoleName { get; set; }
+        public DateTime BirthDate { get; set; }
+        public string PeselNumber { get; set; }
         public List<Roles> RoleCollection { get; set; }
     }
 

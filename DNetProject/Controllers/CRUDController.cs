@@ -123,25 +123,51 @@ namespace DNetProject.Controllers
 
             return View();
         }
+        public ActionResult AddPrivateAlbum()
+        {
+
+            return View();
+        }
         [HttpPost]
         public ActionResult AddAlbum(Albums album)
         {
+            var currentUserId = UserId(User.Identity.Name);
             using (ProjektEntities context = new ProjektEntities())
             {
-                foreach (var al in context.Albums)
-                {
-                    if (album.album_name == al.album_name)
-                    {
-                        ViewBag.error = "Kategoria o takiej nazwie już istnieje";
-                        return View();
-                    }
-                }
+                album.visibility = 0;
+                album.id_user = currentUserId;
                 context.Albums.Add(album);
                 context.SaveChanges();
             }
 
             ViewBag.cat = album.album_name;
-            return View("CategoryAdded");
+            return View("Index");
+        }
+        [HttpPost]
+        public ActionResult AddPrivateAlbum(Albums album)
+        {
+            var currentUserId = UserId(User.Identity.Name);
+            using (ProjektEntities context = new ProjektEntities())
+            {
+                
+                album.visibility = 1;
+                album.id_user = currentUserId;
+                context.Albums.Add(album);
+                context.SaveChanges();
+            }
+
+            ViewBag.cat = album.album_name;
+            return View("Index");
+        }
+        public int UserId(string name)
+        {
+
+            using (ProjektEntities context = new ProjektEntities())
+            {
+                var user = context.Users.Where(a => a.username == User.Identity.Name).FirstOrDefault();
+                var userId = user.id;
+                return userId;
+            }
         }
     }
 

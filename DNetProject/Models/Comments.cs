@@ -14,19 +14,13 @@ namespace DNetProject.Models
     
     public partial class Comments
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Comments()
-        {
-            this.Pictures = new HashSet<Pictures>();
-        }
-    
         public int id { get; set; }
         public Nullable<System.DateTime> upload_date { get; set; }
         public string text { get; set; }
         public Nullable<int> id_user { get; set; }
+        public Nullable<int> id_picture { get; set; }
     
+        public virtual Pictures Pictures { get; set; }
         public virtual Users Users { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Pictures> Pictures { get; set; }
     }
 }

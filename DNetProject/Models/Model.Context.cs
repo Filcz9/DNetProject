@@ -16,7 +16,7 @@ namespace DNetProject.Models
     public partial class ProjektEntities : DbContext
     {
         public ProjektEntities()
-            : base("name=ProjektEntities1")
+            : base("name=ProjektEntities3")
         {
         }
     

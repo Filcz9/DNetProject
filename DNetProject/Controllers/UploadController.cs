@@ -19,7 +19,8 @@ namespace DNetProject.Controllers
 
             using (ProjektEntities context = new ProjektEntities())
             {
-                picture.AlbumCollection = context.Albums.ToList<Albums>();
+                picture.AlbumCollection = context.Albums.Where(a => a.visibility == 0).ToList<Albums>();
+                   // context.Albums.ToList<Albums>();
             }
             return View(picture);
         }
@@ -49,7 +50,7 @@ namespace DNetProject.Controllers
                         description = Picture.description,
                         img = pic,
                         id_user = currentUserId,
-                        rating = 0
+                        
                     };
                     context.Pictures.Add(Picture2);
                     PicturesAlbums pical = new PicturesAlbums

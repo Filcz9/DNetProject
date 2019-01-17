@@ -59,7 +59,7 @@ namespace DNetProject.Controllers
                 {
                     try
                     {
-                        user.role_id = 2;
+                        user.role_id = 1;
                         dc.Users.Add(user);
                         dc.SaveChanges();
                     }

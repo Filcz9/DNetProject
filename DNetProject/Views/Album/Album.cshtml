@@ -1,0 +1,29 @@
+﻿@model DNetProject.Models.HomeModel
+
+@{
+    ViewBag.Title = "Album";
+}
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="~/Content/Home.css">
+<div class="jumbotron">
+    <h1>Fajne Zdjęcia</h1>
+</div>
+
+<div class="home-container" id="home-container">
+    <div class="picture-section" id="picture-section">
+
+        @foreach (var item in Model.pictureList)
+        {
+            <div class="gag-object">
+                <span class="gag-title">@Html.DisplayFor(modelItem => item.title)</span><br />
+                <img class="gag-picture" src="~/UserPictureImages/@Html.DisplayFor(modelItem => item.img)" style="width: 460px"> <br />             
+
+
+            </div>
+
+        }
+</div>
+</div>

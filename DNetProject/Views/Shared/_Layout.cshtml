@@ -21,6 +21,8 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("AddPicture", "Upload", "Upload")</li>
+                    <li>@Html.ActionLink("AddPrivateAlbum", "AddPrivateAlbum", "CRUD")</li>
+                    <li>@Html.ActionLink("Zweryfikuj się", "VerifyAge", "Verify")</li>
                     @if (@Request.IsAuthenticated)
                     {
                         if (User.IsInRole("Admin"))
