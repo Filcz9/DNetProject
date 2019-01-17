@@ -19,61 +19,7 @@ namespace DNetProject.Controllers
             return View(homeModel);
         }
 
-        public ActionResult IndexCategory(string categoryName)
-        {
-            HomeModel homeModel = new HomeModel();
-            IndexView(homeModel);
-            List<Albums> albumList = new List<Albums>();
-            List<Pictures> gagsList = new List<Pictures>();
-            List<Comments> commentList = new List<Comments>();
-            List<Albums> privateList = new List<Albums>();
-            var currentUserId = 0;
-            if (User.Identity.Name != "")
-            {
-                currentUserId = UserId(User.Identity.Name);
-            }
-            else currentUserId = 0;
-            using (ProjektEntities context = new ProjektEntities())
-            {
-                var categoriesList = context.Albums.Where(a => a.visibility == 0).ToList<Albums>();
-                var privates =
-                        from a in context.Albums
-                        where a.visibility == 1 && a.id_user == currentUserId
-                        select a;
-
-                var gags = context.Pictures.ToList();
-                foreach (var priv in privates)
-                {
-                    privateList.Add(priv);
-                }
-
-                foreach (Albums category in categoriesList)
-                {
-
-                    albumList.Add(category);
-                }
-                //var categoriesList = context.Categories.ToList();
-                foreach (Pictures gag in gags)
-                {
-                    //var name = context.Categories.Where(a => a.CategoryId == gag.CategoryId).FirstOrDefault();
-                    //gag.Category.CategoryName = name.CategoryName;
-                    gagsList.Add(gag);
-                    ViewBag.pic = gag.img;
-                }
-                //foreach (Category category in categoriesList)
-                //{
-                //    categoryList.Add(category);
-                //}
-                homeModel.privateList = privateList;
-                homeModel.pictureComments = commentList;
-                homeModel.pictureList = gagsList;
-                homeModel.albumList = albumList;
-            }
-            gagsList.Reverse();
-            return View("Index", homeModel);
-        }
-
-      
+  
 
         public int UserId(string name)
         {
@@ -89,7 +35,7 @@ namespace DNetProject.Controllers
         public HomeModel IndexView(HomeModel homeModel)
         {
             List<Albums> albumList = new List<Albums>();
-            List<Pictures> gagsList = new List<Pictures>();
+            List<Pictures> pictureList = new List<Pictures>();
             List<Albums> privateList = new List<Albums>();
             var currentUserId = 0;
             if (User.Identity.Name != "")
@@ -100,26 +46,18 @@ namespace DNetProject.Controllers
             using (ProjektEntities context = new ProjektEntities())
             {
                 var categoriesList = context.Albums.Where(a => a.visibility == 0).ToList<Albums>();
-                //var privatesList = context.Albums.Where(a => a.visibility == 1).ToList<Albums>();
                 var privatesList =
                         from a in context.Albums
                         where a.visibility == 1 && a.id_user == currentUserId
                         select a;
 
-                foreach (Pictures gag in context.Pictures)
+                foreach (Pictures pic in context.Pictures)
                 {
-                    //var name = context.Albums.Where(a => a.id == gag.).FirstOrDefault();
-                    //gag.Category.CategoryName = name.CategoryName;
-                    gagsList.Add(gag);
-                    ViewBag.pic = gag.img;
+
+                    pictureList.Add(pic);
+                    ViewBag.pic = pic.img;
                 }
 
-                //foreach (GagsUser gag in context.GagsUsers)
-                //{
-                //    var checkUpvote = context.GagsUsers.Where(a => a.User.Username == User.Identity.Name).FirstOrDefault();
-
-                //    // ViewBag.pic = gag.Picture;
-                //}
                 foreach(Albums priv in privatesList)
                 {
                     privateList.Add(priv);
@@ -131,39 +69,38 @@ namespace DNetProject.Controllers
                     albumList.Add(category);
                 }
 
-                //foreach (Pictures gag in context.Pictures)
-                //{
-                //    if (gag.Points > topGag.Points)
-                //        topGag = gag;
-                //}
-                gagsList.Reverse();
-                //homeModel.topGag = topGag;
-                homeModel.pictureList = gagsList;
+                pictureList.Reverse();     
+                homeModel.pictureList = pictureList;
                 homeModel.albumList = albumList;
                 homeModel.privateList = privateList;
-                //homeModel.gagsUserList = gagsUsersList;
             }
             return homeModel;
         }
-        [Authorize(Roles = "Admin,Moderator")]
-        public ActionResult DeleteGag(int gagId)
+        [Authorize(Roles = "Admin")]
+        public ActionResult Delete(int picId)
         {
             using (ProjektEntities context = new ProjektEntities())
             {
-                var gag = context.Pictures.Where(a => a.id == gagId).FirstOrDefault();
-                var gagPoints = context.PicturesAlbums.Where(a => a.pictures_id == gagId).ToList();
-                foreach (PicturesAlbums g in gagPoints)
+                var picture = context.Pictures.Where(a => a.id == picId).FirstOrDefault();
+                var pical = context.PicturesAlbums.Where(a => a.pictures_id == picId).ToList();
+                var comments = context.Comments.Where(a => a.id_picture == picId).ToList();
+
+                foreach (Comments comment in comments)
                 {
-                    context.PicturesAlbums.Remove(g);
+                    context.Comments.Remove(comment);
                 }
-                context.Pictures.Remove(gag);
+                foreach (PicturesAlbums p in pical)
+                {
+                    context.PicturesAlbums.Remove(p);
+                }
+                context.Pictures.Remove(picture);
                 context.SaveChanges();
             }
             HomeModel homeModel = new HomeModel();
             IndexView(homeModel);
             ViewBag.Deleted = "true";
-            ViewBag.msg = "Gag został usunięty i nikt już nie będzie w stanie go zobaczyć!";
-            return View(homeModel);
+            ViewBag.msg = "Zdjęcie zostało usunięte";
+            return RedirectToAction("Index", "Home"); 
         }
 
 

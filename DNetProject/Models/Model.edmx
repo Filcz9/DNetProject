@@ -63,8 +63,6 @@
           <Property Name="ActivationCode" Type="uniqueidentifier" Nullable="false" />
           <Property Name="ResetPasswordCode" Type="varchar(max)" />
           <Property Name="role_id" Type="int" />
-          <Property Name="pesel" Type="varchar" MaxLength="11" />
-          <Property Name="birthdate" Type="date" />
         </EntityType>
         <Association Name="FK__Comments__id_pic__690797E6">
           <End Role="Pictures" Type="Self.Pictures" Multiplicity="0..1" />
@@ -244,8 +242,6 @@
           <NavigationProperty Name="Comments" Relationship="Self.FK__Comments__id_use__681373AD" FromRole="Users" ToRole="Comments" />
           <NavigationProperty Name="Pictures" Relationship="Self.FK__Pictures__id_use__5E8A0973" FromRole="Users" ToRole="Pictures" />
           <NavigationProperty Name="Roles" Relationship="Self.FK__Users__role_id__60A75C0F" FromRole="Users" ToRole="Roles" />
-          <Property Name="pesel" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
-          <Property Name="birthdate" Type="DateTime" Precision="0" />
         </EntityType>
         <Association Name="FK__PicturesA__album__6CD828CA">
           <End Role="Albums" Type="Self.Albums" Multiplicity="1" />
@@ -411,8 +407,6 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="ProjektModel.Users">
               <MappingFragment StoreEntitySet="Users">
-                <ScalarProperty Name="birthdate" ColumnName="birthdate" />
-                <ScalarProperty Name="pesel" ColumnName="pesel" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="username" ColumnName="username" />
                 <ScalarProperty Name="password" ColumnName="password" />

@@ -154,6 +154,7 @@
   <ItemGroup>
     <Compile Include="Controllers\AlbumController.cs" />
     <Compile Include="Controllers\VerifyController.cs" />
+    <Compile Include="CustomHelpers\CustomHTMLHelpers.cs" />
     <Compile Include="Models\Albums.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -172,6 +173,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Extended\Albums.cs" />
+    <Compile Include="Models\Extended\Pesel.cs" />
     <Compile Include="Models\IPeselValidator.cs" />
     <Compile Include="Models\Model.Context.cs">
       <AutoGen>True</AutoGen>
@@ -241,6 +244,7 @@
     <Content Include="Models\Model.edmx.diagram">
       <DependentUpon>Model.edmx</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\verycoolpictures - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -254,6 +258,10 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="UserPictureImages\czasw.png" />
+    <Content Include="UserPictureImages\gaussw.png" />
+    <Content Include="UserPictureImages\MonteCarlow.png" />
+    <Content Include="UserPictureImages\test.jpg" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -284,10 +292,12 @@
     <Content Include="Views\Picture\Comment.cshtml" />
     <Content Include="Views\Verify\VerifyAge.cshtml" />
     <Content Include="Views\Album\Album.cshtml" />
+    <Content Include="Views\Shared\_myLayout.cshtml" />
+    <Content Include="Views\Picture\NotExist.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="UserPictureImages\" />
+    <Folder Include="Models\Extended\Ext\" />
     <Folder Include="Views\Albums\" />
   </ItemGroup>
   <ItemGroup>

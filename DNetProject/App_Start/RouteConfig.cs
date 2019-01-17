@@ -15,33 +15,33 @@ namespace DNetProject
 
 
              routes.MapRoute(
-                name: "ModeratorApplicationRoute",
-                url: "ModeratorApplication",
-                defaults: new { controller = "ModeratorApplication", action = "ModeratorApplication" }
+                name: "EditUserRoute",
+                url: "EditUser",
+                defaults: new { controller = "CRUD", action = "EditUser" }
             );
 
             routes.MapRoute(
              name: "PictureRoute",
-             url: "Picture/{gagId}",
+             url: "Picture/{picId}",
              defaults: new { controller = "Picture", action = "Picture" }
          );
 
             routes.MapRoute(
-              name: "ProfileRoute",
-              url: "Profile",
-              defaults: new { controller = "Profile", action = "ProfileIndex" }
+              name: "VerifyAgeRoute",
+              url: "VerifyAge",
+              defaults: new { controller = "Verify", action = "VerifyAge" }
           );
 
             routes.MapRoute(
               name: "UserListRoute",
-              url: "AdminPanel/ListaUżytkowników",
-              defaults: new { controller = "AdminPanel", action = "UserList" }
+              url: "CRUD/UserList",
+              defaults: new { controller = "CRUD", action = "UserList" }
           );
 
             routes.MapRoute(
                name: "AdminPanelRoute",
-               url: "AdminPanel",
-               defaults: new { controller = "AdminPanel", action = "AdminPanel" }
+               url: "Crud",
+               defaults: new { controller = "CRUD", action = "AdminPanel" }
            );
 
             routes.MapRoute(
@@ -51,9 +51,9 @@ namespace DNetProject
            );
 
             routes.MapRoute(
-               name: "CategoryRoute",
-               url: "{categoryName}",
-               defaults: new { controller = "Home", action = "IndexCategory"}
+               name: "AlbumRoute",
+               url: "Album/{albumId}",
+               defaults: new { controller = "Album", action = "Album"}
            );
             routes.MapRoute(
     name: "Default",

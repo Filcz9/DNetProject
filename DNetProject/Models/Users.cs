@@ -29,8 +29,6 @@ namespace DNetProject.Models
         public System.Guid ActivationCode { get; set; }
         public string ResetPasswordCode { get; set; }
         public Nullable<int> role_id { get; set; }
-        public string pesel { get; set; }
-        public Nullable<System.DateTime> birthdate { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Comments> Comments { get; set; }

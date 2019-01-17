@@ -3,9 +3,32 @@ using System.Collections.Generic;
 using DNetProject.Models.Extended;
 using System.Linq;
 using System.Web;
+using System.ComponentModel.DataAnnotations;
 
 namespace DNetProject.Models
 {
+    [MetadataType(typeof(CommentsMetadata))]
+    public partial class Comments
+    {
+    }
+    public class CommentsMetadata
+    {
+        [Display(Name = "Treść")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Nie można wrzucać pustych komentarzy")]
+        public string text { get; set; }
+
+    }
+
+    [MetadataType(typeof(PicturesAlbumsMetadata))]
+    public partial class PicturesAlbums
+    {
+    }
+    public class PicturesAlbumsMetadata
+    {
+        [Display(Name = "Dodaj do prywatnego albumu")]
+        public int id { get; set; }
+
+    }
     public class HomeModel
     {
         public Pictures picture { get; set; }

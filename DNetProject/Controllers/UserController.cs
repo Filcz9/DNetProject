@@ -108,7 +108,7 @@ namespace DNetProject.Controllers
 
             var fromEmail = new MailAddress("filcz626@gmail.com", "Filip Czyż");
             var toEmail = new MailAddress(emailID);
-            var fromEmailPassword = ""; // Replace with actual password
+            var fromEmailPassword = "Masseffect2"; // Replace with actual password
 
             string subject = "";
             string body = "";

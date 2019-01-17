@@ -27,7 +27,7 @@ namespace DNetProject.Controllers
 
                 var pictures =
                         from p in context.Pictures
-                        from c in context.PicturesAlbums //on p.id equals c.pictures_id into pa
+                        from c in context.PicturesAlbums 
                     where p.id == c.pictures_id && albumId == c.album_id
                         select p;
 

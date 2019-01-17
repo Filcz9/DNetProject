@@ -26,9 +26,14 @@ namespace DNetProject.Models
             [Required(AllowEmptyStrings = false, ErrorMessage = "Zdjęcie jest wymagane")]
             public string img { get; set; }
 
+            [Display(Name = "Opis")]
+            [Required(AllowEmptyStrings = false, ErrorMessage = "Kategoria jest wymagana")]
+            public string description { get; set; }
+
+
             [Display(Name = "Album")]
             [Required(AllowEmptyStrings = false, ErrorMessage = "Kategoria jest wymagana")]
-             public string AlbumId { get; set; }
+            public string AlbumId { get; set; }
     }
     }
 

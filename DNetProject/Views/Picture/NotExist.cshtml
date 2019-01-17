@@ -1,0 +1,44 @@
+﻿@model DNetProject.Models.HomeModel
+
+@{
+    ViewBag.Title = "Gag";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="~/Content/home.css">
+<div class="jumbotron">
+    <h1>IGags</h1>
+    <p class="lead">Miejsce w którym zaczyna się zabawa.</p>
+</div>
+<div class="home-container">
+    @section privates{
+        @if (Request.IsAuthenticated)
+        {
+            if (User.IsInRole("User") || User.IsInRole("Admin") || User.IsInRole("Verified"))
+            {
+                <div class="album-section" id="album-section">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Prywatne Albumy</div>
+                        @foreach (var item in Model.privateList)
+                        {
+                            <a href="@Url.Action("Album", "Album", new {albumId = item.id})" style="text-decoration: none;">
+                                <div class="panel-body">@Html.DisplayFor(modelItem => item.album_name)</div>
+                            </a>
+
+                        }
+                    </div>
+                </div>
+            }
+        }
+    }
+    @section picture{
+    <div class="picture-section" id="picture-section">
+        <h2>Zdjęcie nie istnieje!</h2>
+    </div>
+        }
+
+</div>

@@ -10,15 +10,15 @@ namespace DNetProject.Controllers
     public class PictureController : Controller
     {
         // GET: Picture
-        public ActionResult Picture(int gagId)
+        public ActionResult Picture(int picId)
         {
             HomeModel homeModel = new HomeModel();
-            homeModel.pictureId = gagId;
-            PictureView(homeModel, gagId);
+            homeModel.pictureId = picId;
+            PictureView(homeModel, picId);
             homeModel.comment = new Comments();
             using (ProjektEntities context = new ProjektEntities())
             {
-                var checkGag = context.Pictures.Where(a => a.id == gagId).FirstOrDefault();
+                var checkGag = context.Pictures.Where(a => a.id == picId).FirstOrDefault();
                 if (checkGag == null)
                 {
                     return View("NotExist", homeModel);
@@ -30,9 +30,8 @@ namespace DNetProject.Controllers
 
         public HomeModel PictureView(HomeModel homeModel, int gagId)
         {
-            List<Albums> categoryList = new List<Albums>();
-            List<Pictures> gagsList = new List<Pictures>();
-            //List<GagsUser> gagsUsersList = new List<GagsUser>();
+            List<Albums> albumList = new List<Albums>();
+            List<Pictures> pictureList = new List<Pictures>();
             List<Comments> pictureComments = new List<Comments>();
             var currentUserId = 0;
             if (User.Identity.Name != "")
@@ -46,8 +45,7 @@ namespace DNetProject.Controllers
                         from a in context.Albums
                         where a.visibility == 1 && a.id_user == currentUserId
                         select a;
-                // gagsUsersList = context.GagsUsers.Where(a => a.User.Username == User.Identity.Name).ToList();
-                //var comments = context.Comments.Where(a => a.id_picture == gagId).ToList();
+
                 var comments =
                 from c in context.Comments
                 join u in context.Users on c.id_user equals u.id into ps
@@ -62,15 +60,15 @@ namespace DNetProject.Controllers
                 }
                 foreach (var category in privates)
                 {
-                    categoryList.Add(category);
+                    albumList.Add(category);
                 }
 
-                gagsList.Add(sGag);
-                gagsList.Reverse();
+                pictureList.Add(sGag);
+                pictureList.Reverse();
                 homeModel.pictureComments = pictureComments;
-                homeModel.pictureList = gagsList;
-                homeModel.privateList = categoryList;
-                //homeModel.gagsUserList = gagsUsersList;
+                homeModel.pictureList = pictureList;
+                homeModel.privateList = albumList;
+
 
                 return homeModel;
             }
@@ -141,115 +139,7 @@ namespace DNetProject.Controllers
 
             return PartialView("Comment", homeModel);
         }
-        //public ActionResult Upvote(int id, string categoryName)
-        //{
-        //    var CurrentUserId = UserId(User.Identity.Name);
-        //    if (Request.IsAuthenticated)
-        //    {
-
-        //        using (ProjektEntities context = new ProjektEntities())
-        //        {
-        //            var checkUpvote = context.GagsUsers.Where(a => a.User.Username == User.Identity.Name && a.GagId == id && a.Vote == 1).FirstOrDefault();
-        //            var checkDownvote = context.GagsUsers.Where(a => a.User.Username == User.Identity.Name && a.GagId == id && a.Vote == 0).FirstOrDefault();
-        //            if (checkUpvote == null)
-        //            {
-        //                var gagUpvote = context.Gags.Where(a => a.GagId == id).FirstOrDefault();
-        //                if (checkDownvote != null)
-        //                {
-        //                    gagUpvote.Points += 2;
-        //                    context.GagsUsers.Remove(checkDownvote);
-        //                }
-        //                else
-        //                {
-        //                    gagUpvote.Points += 1;
-        //                }
-
-        //                GagsUser gUser = new GagsUser()
-        //                {
-        //                    UserId = UserId(User.Identity.Name),
-        //                    GagId = id,
-        //                    Vote = 1,
-        //                    InteractionDate = DateTime.Now
-        //                };
-        //                context.GagsUsers.Add(gUser);
-
-
-        //                context.SaveChanges();
-        //            }
-        //            else
-        //            {
-        //                var gagUpvote = context.Gags.Where(a => a.GagId == id).FirstOrDefault();
-        //                gagUpvote.Points -= 1;
-        //                var deleteUpvote = context.GagsUsers.Where(a => a.GagId == id && a.UserId == CurrentUserId && a.Vote == 1).FirstOrDefault();
-
-        //                context.GagsUsers.Remove(deleteUpvote);
-        //                context.SaveChanges();
-        //            }
-
-        //        }
-        //    }
-        //    HomeModel homeModel = new HomeModel();
-        //    GagView(homeModel, id);
-
-
-        //    return PartialView("GagPoints", homeModel);
-        //}
-
-        //public ActionResult Downvote(int id, string categoryName)
-        //{
-        //    var CurrentUserId = UserId(User.Identity.Name);
-        //    if (Request.IsAuthenticated)
-        //    {
-
-        //        using (ProjektEntities context = new ProjektEntities())
-        //        {
-        //            var checkDownvote = context.GagsUsers.Where(a => a.User.Username == User.Identity.Name && a.GagId == id && a.Vote == 0).FirstOrDefault();
-        //            var checkUpvote = context.GagsUsers.Where(a => a.User.Username == User.Identity.Name && a.GagId == id && a.Vote == 1).FirstOrDefault();
-        //            if (checkDownvote == null)
-        //            {
-        //                var gagDownvote = context.Gags.Where(a => a.GagId == id).FirstOrDefault();
-        //                if (checkUpvote != null)
-        //                {
-        //                    gagDownvote.Points -= 2;
-        //                    context.GagsUsers.Remove(checkUpvote);
-        //                }
-        //                else
-        //                {
-        //                    gagDownvote.Points -= 1;
-        //                }
-
-        //                GagsUser gUser = new GagsUser()
-        //                {
-        //                    UserId = UserId(User.Identity.Name),
-        //                    GagId = id,
-        //                    Vote = 0,
-        //                    InteractionDate = DateTime.Now
-        //                };
-        //                context.GagsUsers.Add(gUser);
-
-        //                context.SaveChanges();
-        //            }
-        //            else
-        //            {
-        //                var gagDownvote = context.Gags.Where(a => a.GagId == id).FirstOrDefault();
-        //                gagDownvote.Points += 1;
-
-        //                var deleteDownvote = context.GagsUsers.Where(a => a.GagId == id && a.UserId == CurrentUserId && a.Vote == 0).FirstOrDefault();
-
-        //                context.GagsUsers.Remove(deleteDownvote);
-
-        //                context.SaveChanges();
-        //            }
-
-        //        }
-        //    }
-        //    HomeModel homeModel = new HomeModel();
-        //    GagView(homeModel, id);
-
-
-
-        //    return PartialView("GagPoints", homeModel);
-        //}
+       
 
         public int UserId(string name)
         {

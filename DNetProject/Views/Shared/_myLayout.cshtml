@@ -1,11 +1,10 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("head", required: false)
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -20,8 +19,6 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-
-
 
                     @if (@Request.IsAuthenticated)
                     {
@@ -41,10 +38,6 @@
                             <li>@Html.ActionLink("Dodaj prywatny Album", "AddPrivateAlbum", "CRUD")</li>
                         }
                         <li>
-
-                            @*<span data-toggle="tooltip" title="Description" data-placement="right">
-                    @Html.Action("NavBar", "Home")
-                </span>*@
                             <button type="button" class="btn navbar-btn userHover" style="background-color: black; color: white; font-family: Monte" data-toggle="dropdown">  @User.Identity.Name <i class="fa fa-angle-down"></i></button>
 
                             <ul class="dropdown-menu" role="menu">
@@ -61,8 +54,6 @@
                                 </li>
                             </ul>
                         </li>
-
-
                     }
 
                     else
@@ -87,16 +78,20 @@
             </div>
         </div>
     </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
 
+    @RenderBody()
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    <div class="left">
+        @RenderSection("privates", required: true)
+    </div>
+    <div class="center-block">
+        @RenderSection("picture", required: true)
+    </div>
+    <div class="pull-right">
+        @RenderSection("comments", required: false)
+        @RenderSection("albums", required: false)
+    </div>
     @RenderSection("scripts", required: false)
 </body>
 </html>

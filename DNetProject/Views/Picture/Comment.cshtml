@@ -1,10 +1,17 @@
 ﻿@model DNetProject.Models.HomeModel
 
-<div class="comment-section" id="album-section">
+<div class="comment-section" id="comment-section">
+
     @foreach (var item in Model.pictureComments)
     {
-        <p>@Html.DisplayFor(modelItem => item.Users.username)</p>
-        <p>@Html.DisplayFor(modelItem => item.text)</p>
+        <div class="actionBox">
+            <ul class="commentList">
+                <li>
+                    <div class="commentText">
+                        <span class="date sub-text">@Html.DisplayFor(modelItem => item.Users.username)</span>
+                        <p>@Html.DisplayFor(modelItem => item.text)</p>
+                    </div>
+            </ul>
+        </div>
     }
 </div>
-    

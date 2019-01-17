@@ -1,7 +1,9 @@
-﻿@model DNetProject.Models.HomeModel
+﻿@using DNetProject.CustomHelpers
+@model DNetProject.Models.HomeModel
 
 @{
     ViewBag.Title = "Home Page";
+    Layout = "~/Views/Shared/_myLayout.cshtml";
 }
 <script src="~/Scripts/jquery-3.3.1.min.js"></script>
 <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
@@ -16,67 +18,78 @@
 
 
 
-
-    @if (Request.IsAuthenticated)
-    {
-        if (User.IsInRole("User"))
+    @section privates
         {
-            <div class="album-section" id="album-section">
-                <h3>Prywatne Albumy</h3>
-                @foreach (var item in Model.privateList)
-                {
-                    <a href="@Url.Action("Album", "Album", new {albumId = item.id})" style="text-decoration: none;">
-                        <div class="category-object">
-                            <span class="category-span">@Html.DisplayFor(modelItem => item.album_name)</span><br />
-                        </div>
-                    </a>
-                }
-            </div>
+        @if (Request.IsAuthenticated)
+        {
+            if (User.IsInRole("User") || User.IsInRole("Admin") || User.IsInRole("Verified"))
+            {
+                <div class="album-section" id="album-section">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Prywatne Albumy</div>
+                        @foreach (var item in Model.privateList)
+                        {
+                            <a href="@Url.Action("Album", "Album", new {albumId = item.id})" style="text-decoration: none;">
+                                <div class="panel-body">@Html.DisplayFor(modelItem => item.album_name)</div>
+                            </a>
+
+                        }
+                    </div>
+                </div>
+            }
         }
+
     }
 
 
-    <div class="picture-section" id="picture-section">
-
-        @foreach (var item in Model.pictureList)
+    @section picture
         {
-            <div class="gag-object">
-                <a target="_blank" href="@Url.Action("Picture", "Picture", new {gagId = item.id})">
-                    <span class="gag-title">@Html.DisplayFor(modelItem => item.title)</span><br />
-                </a>
+        <div class="picture-section" id="picture-section">
 
-                <img class="gag-picture" src="~/UserPictureImages/@Html.DisplayFor(modelItem => item.img)" style="width: 460px"> <br />
-                <div class="category-delete">
+            @foreach (var item in Model.pictureList)
+            {
+                <div class="gag-object">
+                    <a target="_blank" href="@Url.Action("Picture", "Picture", new {picId = item.id})">
+                        <span class="gag-title">@Html.DisplayFor(modelItem => item.title)</span><br />
+                    </a>
 
-                    @if (Request.IsAuthenticated)
-                    {
-                        if (User.IsInRole("Admin"))
+
+                    @Html.Image(item.img)
+                    <div class="category-delete">
+
+                        @if (Request.IsAuthenticated)
                         {
-                            <div class="delete-flex">
-                                <a onclick="return confirm('Are you sure?')" href=@Url.Action("DeleteGag", "Home", new {gagId = item.id}) class="fas fa-times fa-2x" style="color: red;"></a>
-                            </div>
+                            if (User.IsInRole("Admin"))
+                            {
+                                <div class="delete-flex">
+                                    <a onclick="return confirm('Are you sure?')" href=@Url.Action("Delete", "Home", new {picId = item.id}) class="fas fa-times fa-2x" style="color: red;">Usuń</a>
+                                </div>
+                            }
                         }
-                    }
+
+                    </div>
 
                 </div>
-
-            </div>
-            <hr style="border-color: #383636;" />
-        }
-    </div>
-
-
+                <hr style="border-color: #383636;" />
+            }
+        </div>
+    }
+    @section albums{
+        <div class="album-section" id="album-section">
             <div class="album-section" id="album-section">
-                <h3>Publiczne Albumy</h3>
-                @foreach (var item in Model.albumList)
-                {
-                    <a href=@Url.Action("Album", "Album", new {albumId = item.id}) style="text-decoration: none;">
-                        <div class="category-object">
-                            <span class="category-span">@Html.DisplayFor(modelItem => item.album_name)</span><br />
-                        </div>
-                    </a>
-                }
+                <div class="panel panel-default">
+                    <div class="panel-heading">Publiczne Albumy</div>
+                    @foreach (var item in Model.albumList)
+                    {
+                        <a href="@Url.Action("Album", "Album", new {albumId = item.id})" style="text-decoration: none;">
+                            <div class="panel-body">@Html.DisplayFor(modelItem => item.album_name)</div>
+                        </a>
+
+                    }
+                </div>
             </div>
-        
-    
-</div>
+        </div>
+
+
+    </div>
+    }

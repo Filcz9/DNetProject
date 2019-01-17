@@ -37,7 +37,14 @@ namespace DNetProject.Controllers
             using (ProjektEntities context = new ProjektEntities())
             {
                 var user = context.Users.Where(a => a.username == username).FirstOrDefault();
+                var comment = context.Comments.Where(a => a.id_user == user.id).ToList();
                 context.Users.Remove(user);
+
+
+                foreach(Comments com in comment)
+                {
+                    context.Comments.Remove(com);
+                }
                 context.SaveChanges();
                 userList = context.Users.ToList();
             }
@@ -64,9 +71,6 @@ namespace DNetProject.Controllers
         public ActionResult EditUser(Users userModel, int userId, string userPassword)
         {
             List<Users> userList = new List<Users>();
-            try
-            {
-
 
                 using (ProjektEntities context = new ProjektEntities())
                 {
@@ -80,11 +84,6 @@ namespace DNetProject.Controllers
 
                     userList = context.Users.ToList();
                 }
-            }
-            catch (DbEntityValidationException e)
-            {
-                Console.WriteLine(e);
-            }
 
             foreach (Users user in userList)
             {
@@ -131,6 +130,10 @@ namespace DNetProject.Controllers
         [HttpPost]
         public ActionResult AddAlbum(Albums album)
         {
+            if (album.album_name == null)
+            {
+                return View();
+            }
             var currentUserId = UserId(User.Identity.Name);
             using (ProjektEntities context = new ProjektEntities())
             {
@@ -141,23 +144,30 @@ namespace DNetProject.Controllers
             }
 
             ViewBag.cat = album.album_name;
-            return View("Index");
+            return RedirectToAction("Index", "Home");
         }
         [HttpPost]
         public ActionResult AddPrivateAlbum(Albums album)
         {
-            var currentUserId = UserId(User.Identity.Name);
-            using (ProjektEntities context = new ProjektEntities())
+            if (album.album_name == null)
             {
-                
-                album.visibility = 1;
-                album.id_user = currentUserId;
-                context.Albums.Add(album);
-                context.SaveChanges();
+                return View();
             }
+            else
+            {
+                var currentUserId = UserId(User.Identity.Name);
+                using (ProjektEntities context = new ProjektEntities())
+                {
 
-            ViewBag.cat = album.album_name;
-            return View("Index");
+                    album.visibility = 1;
+                    album.id_user = currentUserId;
+                    context.Albums.Add(album);
+                    context.SaveChanges();
+                }
+
+                ViewBag.cat = album.album_name;
+                return RedirectToAction("Index", "Home");
+            }
         }
         public int UserId(string name)
         {
